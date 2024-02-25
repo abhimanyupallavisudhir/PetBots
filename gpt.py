@@ -35,6 +35,7 @@ class Agent:
     public_history = []  # Shared conversation history among all Agent instances
     _registry = {}
     quit_word = 'quit'
+    conversing = False
     
     def __init__(self, name, model_type, private_preface):
         if name == Agent.quit_word:
@@ -63,8 +64,10 @@ class Agent:
 
     def run(self):
         if self.model_type == "user":
-            output = text_input(f"\n\n{self.name}, input your message (Ctrl-D to submit):\n")
+            output = text_input(f"\n\n{self.name}, input your message\nCtrl-D to submit. Type '{Agent.quit_word}' and submit to end convo:\n")
             Agent.public_history.append({"role": "user", "content": output})
+            if output == Agent.quit_word:
+                Agent.conversing = False
         elif self.model_type.startswith("gpt"):
             try:
                 print(f"\n\n{self.name} says:")
@@ -92,6 +95,7 @@ class Agent:
             print(f"{entry['role']}: {entry['content']}")
 
 def conversation(order_of_speaking=Agent._registry):
+    Agent.conversing = True
     if order_of_speaking is None:
         # Interactive mode, similar to the original implementation
         while True:
@@ -105,13 +109,16 @@ def conversation(order_of_speaking=Agent._registry):
                 print("Agent not found.")
     else:
         # Follow the predefined order of speaking
-        while True:
+        while Agent.conversing == True:
             for agent_name in order_of_speaking:
-                agent = Agent._registry.get(agent_name)
-                if agent:
-                    agent.run()
+                if Agent.conversing == True:
+                    agent = Agent._registry.get(agent_name)
+                    if agent:
+                        agent.run()
+                    else:
+                        print(f"Agent named '{agent_name}' not found.")
                 else:
-                    print(f"Agent named '{agent_name}' not found.")
+                    break
 
 User = Agent(name = "Your Name", model_type = "user", private_preface = "You're a human, you don't need a preface.")
 Assistant = Agent(name = "Assistant", model_type = "gpt-4", private_preface = prefaces.default)
