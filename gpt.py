@@ -120,5 +120,7 @@ def conversation(order_of_speaking=Agent._registry):
                 else:
                     break
 
-User = Agent(name = "Your Name", model_type = "user", private_preface = "You're a human, you don't need a preface.")
-Assistant = Agent(name = "Assistant", model_type = "gpt-4", private_preface = prefaces.default)
+if __name__ == "__main__":
+    User = Agent(name = "Your Name", model_type = "user", private_preface = "You're a human, you don't need a preface.")
+    Assistant = Agent(name = "Assistant", model_type = "gpt-4", private_preface = prefaces.default)
+    conversation()
