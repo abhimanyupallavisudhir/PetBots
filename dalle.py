@@ -1,6 +1,3 @@
-# Functional one -- AS IN: THIS IS NOT A DELETED NOTEBOOK, YOU ARE GOOD TO GO
-# ^^^ DELETE THIS LINE IF YOU WANT TO DELETE THIS NOTEBOOK. 9 Feb 2024.
-
 # consistent characters SD
 # inpainting
 # video: runway? sd video?
