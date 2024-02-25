@@ -1,3 +1,0 @@
-import gpt
-
-gpt.conversation()
