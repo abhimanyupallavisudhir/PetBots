@@ -1,0 +1,3 @@
+import gpt
+
+gpt.conversation()
